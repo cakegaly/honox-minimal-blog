@@ -21,7 +21,7 @@ export default createRoute(async (c) => {
             <h2 className="text-2xl font-medium tracking-tight">Grid View</h2>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {allPosts.slice(0, 6).map((post) => (
+            {allPosts.map((post) => (
               <LinkCard
                 title={post.metadata.title}
                 imageUrl={post.metadata.thumbnail || '/static/og.png'}

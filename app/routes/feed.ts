@@ -1,42 +1,42 @@
 import { createRoute } from 'honox/factory';
-import { Feed } from 'feed';
 
 import { siteConfig } from '@/lib/config';
 import { getAllBlogPosts } from '@/lib/mdx';
 
 export default createRoute(async (c) => {
-  const feeds = await generateRssFeed();
-  return c.text(feeds, 200, {
-    'Content-Type': 'text/xml',
+  const rss = await generateRssFeed();
+  return c.text(rss, 200, {
+    'Content-Type': 'application/rss+xml; charset=utf-8',
   });
 });
 
-export async function generateRssFeed() {
-  const feed = new Feed({
-    title: siteConfig.name,
-    description: siteConfig.description,
-    id: siteConfig.url,
-    link: siteConfig.url,
-    language: 'ja',
-    copyright: siteConfig.copyRight,
-    generator: siteConfig.url,
-    favicon: `${siteConfig.url}/favicon.ico`,
-    image: `${siteConfig.url}/static/avatars/cakegaly.webp`,
-    author: {
-      name: siteConfig.copyRight,
-    },
-  });
+export async function generateRssFeed(): Promise<string> {
+  const posts = await getAllBlogPosts();
 
-  const allPosts = await getAllBlogPosts();
-  for (const post of allPosts) {
-    feed.addItem({
-      title: post.metadata.title,
-      description: post.metadata.description,
-      date: new Date(post.metadata.publishedAt),
-      id: `${siteConfig.url}/blog/${post.slug}`,
-      link: `${siteConfig.url}/blog/${post.slug}`,
-    });
-  }
+  const items = posts
+    .map(
+      (post) => `
+    <item>
+      <title><![CDATA[${post.metadata.title}]]></title>
+      <link>${siteConfig.url}/blog/${post.slug}</link>
+      <guid isPermaLink="true">${siteConfig.url}/blog/${post.slug}</guid>
+      <description><![CDATA[${post.metadata.description}]]></description>
+      <pubDate>${new Date(post.metadata.publishedAt).toUTCString()}</pubDate>
+    </item>`
+    )
+    .join('\n');
 
-  return feed.rss2();
+  const rss = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title><![CDATA[${siteConfig.name}]]></title>
+    <link>${siteConfig.url}</link>
+    <description><![CDATA[${siteConfig.description}]]></description>
+    <language>ja</language>
+    <copyright>${siteConfig.copyRight}</copyright>
+    ${items}
+  </channel>
+</rss>`;
+
+  return rss.trim();
 }
