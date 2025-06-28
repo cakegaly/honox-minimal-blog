@@ -47,5 +47,42 @@
     "vite": "^6.0.6",
     "vite-plugin-sitemap": "^0.7.1",
     "wrangler": "^4.22.0"
+  },
+  "prettier": {
+    "endOfLine": "lf",
+    "printWidth": 80,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "htmlWhitespaceSensitivity": "css",
+    "importOrder": [
+      "^(react/(.*)$)|^(react$)",
+      "^(hono/(.*)$)|^(hono$)",
+      "^(honox/(.*)$)|^(honox$)",
+      "<THIRD_PARTY_MODULES>",
+      "",
+      "^types$",
+      "^@/env(.*)$",
+      "^@/types/(.*)$",
+      "^@/config/(.*)$",
+      "^@/lib/(.*)$",
+      "^@/hooks/(.*)$",
+      "",
+      "^@/components/(.*)$",
+      "^@/styles/(.*)$",
+      "^@/app/(.*)$",
+      "",
+      "^[./]"
+    ],
+    "importOrderParserPlugins": [
+      "typescript",
+      "jsx"
+    ],
+    "plugins": [
+      "@ianvs/prettier-plugin-sort-imports",
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }
