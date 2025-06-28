@@ -73,8 +73,6 @@ export default defineConfig(({ mode }) => {
       }),
       ssg({
         entry: './app/server.ts',
-        // Add concurrency limit to prevent module runner issues
-        concurrency: 1,
       }),
       mdxPlugin,
       Sitemap({
