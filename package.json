@@ -3,7 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build",
+    "build": "vite build --mode client && vite build --mode production",
+    "build:ssg": "vite build --mode client && NODE_ENV=production vite build",
+    "preview": "wrangler pages dev ./dist",
     "lint": "eslint .",
     "format:write": "prettier --write \"**/*.{ts,tsx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache"

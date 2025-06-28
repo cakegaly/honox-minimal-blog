@@ -21,26 +21,25 @@ export type BlogPost = MDXData<{
 const blogFiles = import.meta.glob<{
   frontmatter: Frontmatter;
   default: () => JSX.Element;
-}>('../content/blog/*.mdx');
+}>('../content/blog/*.mdx', { eager: true });
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
-  const posts: BlogPost[] = await Promise.all(
-    Object.entries(blogFiles).map(async ([pathStr, resolver]) => {
-      const slug = pathStr
-        .split('/')
-        .pop()
-        ?.replace(/\.mdx$/, '');
-      if (!slug) throw new Error(`Invalid path: ${pathStr}`);
+  const posts: BlogPost[] = [];
 
-      const mod = await resolver();
+  for (const [pathStr, mod] of Object.entries(blogFiles)) {
+    const slug = pathStr
+      .split('/')
+      .pop()
+      ?.replace(/\.mdx$/, '');
 
-      return {
-        slug,
-        metadata: mod.frontmatter,
-        Component: mod.default,
-      };
-    })
-  );
+    if (!slug) throw new Error(`Invalid path: ${pathStr}`);
+
+    posts.push({
+      slug,
+      metadata: mod.frontmatter,
+      Component: mod.default,
+    });
+  }
 
   return posts.sort(
     (a, b) =>
