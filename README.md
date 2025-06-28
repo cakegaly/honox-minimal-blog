@@ -1,4 +1,4 @@
-# Honox Minimal Blog Template
+# HonoX Minimal Blog Template
 
 A minimal blog template built with [HonoX](https://github.com/honojs/honox), Tailwind CSS, and MDX.
 
