@@ -73,7 +73,7 @@ export default jsxRenderer(
               <link rel="manifest" href="/site.webmanifest" />
             </>
           ) : (
-            <link rel="icon" href="/app/public/favicon.ico" />
+            <link rel="icon" href="/static/favicon.ico" />
           )}
           <link rel="canonical" href={canonical} />
           <link
