@@ -7,9 +7,20 @@ As with my [next-minimal-blog](https://github.com/cakegaly/next-minimal-blog), n
 > [!NOTE]
 > This project is still work in progress. I'm planning to release this as a public template soon! 🔥
 
-## Getting started
+## Running Locally
+
+Follow these steps to set up and run the project on your local machine.
+
+### Install dependencies & Start the development server
 
 ```sh
-bun i
-bun dev
+pnpm i
+pnpm dev
+```
+
+### Build the project & Preview
+
+```sh
+pnpm build
+pnpm preview
 ```
