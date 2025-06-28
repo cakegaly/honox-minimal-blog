@@ -25,7 +25,3 @@ export function canonicalURL(url: string): string {
   const path = new URL(url).pathname;
   return `${siteConfig.url}${path}`;
 }
-
-export function assetPath(path: string) {
-  return import.meta.env.PROD ? path : `/app/public${path}`;
-}

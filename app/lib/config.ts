@@ -15,7 +15,6 @@ export const siteConfig = {
 export const author = {
   slug: 'cakegaly',
   name: 'cakegaly',
-  // image: '/images/avatars/cakegaly.webp',
   image: 'https://github.com/cakegaly.png',
   twitter: 'cakegaly',
 };

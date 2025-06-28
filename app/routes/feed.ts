@@ -21,7 +21,7 @@ export async function generateRssFeed() {
     copyright: siteConfig.copyRight,
     generator: siteConfig.url,
     favicon: `${siteConfig.url}/favicon.ico`,
-    image: `${siteConfig.url}/images/avatars/cakegaly.webp`,
+    image: `${siteConfig.url}/static/avatars/cakegaly.webp`,
     author: {
       name: siteConfig.copyRight,
     },

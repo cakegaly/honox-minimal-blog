@@ -1,7 +1,6 @@
 import { createRoute } from 'honox/factory';
 
 import { getAllBlogPosts } from '@/lib/mdx';
-import { assetPath } from '@/lib/utils';
 
 import { AboutCta } from '@/components/shared/about-cta';
 import { LinkCard } from '@/components/shared/link-card';
@@ -25,7 +24,7 @@ export default createRoute(async (c) => {
             {allPosts.slice(0, 6).map((post) => (
               <LinkCard
                 title={post.metadata.title}
-                imageUrl={assetPath(post.metadata.thumbnail || '/og.png')}
+                imageUrl={post.metadata.thumbnail || '/static/og.png'}
                 link={`/blog/${post.slug}`}
                 badgeText={post.metadata.publishedAt}
                 description={post.metadata.description}
