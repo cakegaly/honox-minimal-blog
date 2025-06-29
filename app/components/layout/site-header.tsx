@@ -1,6 +1,6 @@
 import { siteConfig } from '@/lib/config';
 
-import { BrandIcons } from '@/components/icons/brand-icons';
+import { SiteLogo } from '@/components/icons/site-logo';
 import { ModeSwitcher } from '@/components/layout/_mode-switcher.island';
 import { Button } from '@/components/shared/button';
 
@@ -11,7 +11,7 @@ export function SiteHeader() {
         <div className="container flex h-12 items-center gap-2 border-b **:data-[slot=separator]:!h-4 md:h-16">
           <Button asChild variant="ghost" size="icon" className="flex size-10">
             <a href="/">
-              <BrandIcons.vercel className="size-8" />
+              <SiteLogo className="size-8" />
               <span className="sr-only">{siteConfig.name}</span>
             </a>
           </Button>

@@ -19,12 +19,8 @@ const rehypePrettyCodeOptions = {
     dark: 'github-dark',
     light: 'github-light',
   },
-  // other optional settings:
-  // defaultLang: 'plaintext',
-  // bypassInlineCode: true,
 };
 
-// @ts-expect-error
 export default defineConfig(({ mode }) => {
   const alias = { '@': path.resolve(__dirname, './app') };
 
@@ -63,14 +59,21 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    build: { emptyOutDir: false },
-    publicDir: './app/public',
+    build: {
+      emptyOutDir: false,
+      // Add this to help with SSG stability
+      rollupOptions: {
+        external: ['feed'],
+      },
+    },
     plugins: [
       honox({
         client: { input: ['./app/styles/index.css'] },
         devServer: { adapter },
       }),
-      ssg({ entry: './app/server.ts' }),
+      ssg({
+        entry: './app/server.ts',
+      }),
       mdxPlugin,
       Sitemap({
         hostname: siteConfig.url,
@@ -79,9 +82,15 @@ export default defineConfig(({ mode }) => {
     ],
     ssr: {
       external: ['feed'],
+      // Add noExternal for MDX files to ensure they're processed correctly
+      noExternal: [/\.mdx$/],
     },
     resolve: {
       alias,
+    },
+    // Add optimizeDeps configuration
+    optimizeDeps: {
+      include: ['hono/jsx', 'hono/jsx/jsx-runtime'],
     },
   };
 });

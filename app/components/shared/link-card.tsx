@@ -155,7 +155,7 @@ function LinkCardImage({
   return (
     <AspectRatio ratio={ratio}>
       <img
-        src={imageUrl || '/placeholder.svg'}
+        src={imageUrl || '/static/placeholder.svg'}
         alt={`${title} thumbnail image`}
         className={cn(
           'absolute inset-0 h-full w-full object-cover transition-opacity',
