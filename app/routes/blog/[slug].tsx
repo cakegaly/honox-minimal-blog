@@ -1,7 +1,7 @@
 import { ssgParams } from 'hono/ssg';
 import { createRoute } from 'honox/factory';
 
-import { author } from '@/lib/config';
+import { authorConfig } from '@/lib/config';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/mdx';
 import { absoluteUrl } from '@/lib/utils';
 
@@ -61,9 +61,9 @@ export default createRoute(
                   </h1>
                   <div className="py-4">
                     <Author
-                      name={author.name}
-                      twitterId={author.twitter}
-                      imageUrl={author.image}
+                      name={authorConfig.name}
+                      twitterId={authorConfig.twitter}
+                      imageUrl={authorConfig.image}
                     />
                   </div>
                 </header>

@@ -12,7 +12,7 @@ export const siteConfig = {
   email: 'honox-minimal-blog@example.com',
 };
 
-export const author = {
+export const authorConfig = {
   slug: 'cakegaly',
   name: 'cakegaly',
   image: 'https://github.com/cakegaly.png',
