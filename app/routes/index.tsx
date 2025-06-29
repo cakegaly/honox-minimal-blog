@@ -1,12 +1,14 @@
 import { createRoute } from 'honox/factory';
 
 import { getAllBlogPosts } from '@/lib/mdx';
+import { generateMetadata } from '@/lib/metadata';
 
 import { AboutCta } from '@/components/shared/about-cta';
 import { LinkCard } from '@/components/shared/link-card';
 
 export default createRoute(async (c) => {
   const allPosts = await getAllBlogPosts();
+  const metadata = generateMetadata({ title: 'Home' });
 
   return c.render(
     <div class="flex flex-1 flex-col">
@@ -35,6 +37,7 @@ export default createRoute(async (c) => {
           </div>
         </section>
       </div>
-    </div>
+    </div>,
+    { metadata }
   );
 });

@@ -3,6 +3,7 @@ import { createRoute } from 'honox/factory';
 
 import { authorConfig } from '@/lib/config';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/mdx';
+import { generateMetadata } from '@/lib/metadata';
 import { absoluteUrl } from '@/lib/utils';
 
 import { ArticleShareButtons } from '@/components/content/_article-share-buttons.island';
@@ -24,6 +25,7 @@ export default createRoute(
     if (!post) return c.redirect('/404');
 
     const thumbnailUrl = post.metadata.thumbnail;
+    const metadata = generateMetadata();
 
     return c.render(
       <div className="flex flex-1 flex-col">
@@ -84,9 +86,7 @@ export default createRoute(
         </div>
       </div>,
       {
-        title: post?.metadata.title,
-        description: post?.metadata.description,
-        ogImagePath: post?.metadata.thumbnail,
+        metadata,
       }
     );
   }

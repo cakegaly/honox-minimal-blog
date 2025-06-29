@@ -14,19 +14,22 @@ export interface Metadata {
   modifiedTime?: string;
 }
 
-export function generateMetadata(metadata: Metadata = {}): Metadata {
+export function generateMetadata(
+  metadata: Metadata = {}
+): Required<Omit<Metadata, 'publishedTime' | 'modifiedTime'>> &
+  Pick<Metadata, 'publishedTime' | 'modifiedTime'> {
   return {
     title: metadata.title
       ? `${metadata.title} | ${siteConfig.name}`
       : siteConfig.name,
-    description: metadata.description || siteConfig.description,
-    author: metadata.author || authorConfig.name,
-    ogImage: metadata.ogImage || siteConfig.ogImage,
-    ogType: metadata.ogType || 'website',
-    twitterCard: metadata.twitterCard || 'summary_large_image',
-    canonical: metadata.canonical || siteConfig.url,
-    keywords: metadata.keywords || [],
-    noindex: metadata.noindex || false,
+    description: metadata.description ?? siteConfig.description,
+    author: metadata.author ?? authorConfig.name,
+    ogImage: metadata.ogImage ?? siteConfig.ogImage,
+    ogType: metadata.ogType ?? 'website',
+    twitterCard: metadata.twitterCard ?? 'summary_large_image',
+    canonical: metadata.canonical ?? siteConfig.url,
+    keywords: metadata.keywords ?? [],
+    noindex: metadata.noindex ?? false,
     publishedTime: metadata.publishedTime,
     modifiedTime: metadata.modifiedTime,
   };
