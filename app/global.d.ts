@@ -1,16 +1,12 @@
 import type {} from 'hono';
 
-type Head = {
-  title?: string;
-  description?: string;
-  ogImagePath?: string;
-};
+import type { Metadata } from '@/lib/metadata';
 
 declare module 'hono' {
   interface ContextRenderer {
     (
       content: string | Promise<string>,
-      head?: Head
+      head?: { metadata: Metadata }
     ): Response | Promise<Response>;
   }
 }

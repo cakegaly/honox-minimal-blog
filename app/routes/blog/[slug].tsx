@@ -1,8 +1,10 @@
 import { ssgParams } from 'hono/ssg';
 import { createRoute } from 'honox/factory';
 
-import { author } from '@/lib/config';
+import { tags } from '@/lib/blog';
+import { authorConfig } from '@/lib/config';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/mdx';
+import { generateMetadata } from '@/lib/metadata';
 import { absoluteUrl } from '@/lib/utils';
 
 import { ArticleShareButtons } from '@/components/content/_article-share-buttons.island';
@@ -17,6 +19,7 @@ export default createRoute(
       slug: post.slug,
     }));
   }),
+
   async (c) => {
     const slug = c.req.param('slug');
 
@@ -24,6 +27,11 @@ export default createRoute(
     if (!post) return c.redirect('/404');
 
     const thumbnailUrl = post.metadata.thumbnail;
+    const metadata = generateMetadata({
+      title: post.metadata.title,
+      description: post.metadata.description,
+      ogType: 'article',
+    });
 
     return c.render(
       <div className="flex flex-1 flex-col">
@@ -52,7 +60,10 @@ export default createRoute(
                     )}
                     <div className="hidden md:flex md:gap-2">
                       {post.metadata.tags?.map((tag) => (
-                        <LinkBadge link={`/tags/${tag}`} label={tag} />
+                        <LinkBadge
+                          link={`/tag/${tag}`}
+                          label={tags[tag].name}
+                        />
                       ))}
                     </div>
                   </div>
@@ -61,9 +72,9 @@ export default createRoute(
                   </h1>
                   <div className="py-4">
                     <Author
-                      name={author.name}
-                      twitterId={author.twitter}
-                      imageUrl={author.image}
+                      name={authorConfig.name}
+                      twitterId={authorConfig.twitter}
+                      imageUrl={authorConfig.image}
                     />
                   </div>
                 </header>
@@ -83,11 +94,7 @@ export default createRoute(
           </div>
         </div>
       </div>,
-      {
-        title: post?.metadata.title,
-        description: post?.metadata.description,
-        ogImagePath: post?.metadata.thumbnail,
-      }
+      { metadata }
     );
   }
 );
