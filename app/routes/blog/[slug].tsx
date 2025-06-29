@@ -18,6 +18,7 @@ export default createRoute(
       slug: post.slug,
     }));
   }),
+
   async (c) => {
     const slug = c.req.param('slug');
 
@@ -25,7 +26,11 @@ export default createRoute(
     if (!post) return c.redirect('/404');
 
     const thumbnailUrl = post.metadata.thumbnail;
-    const metadata = generateMetadata();
+    const metadata = generateMetadata({
+      title: post.metadata.title,
+      description: post.metadata.description,
+      ogType: 'article',
+    });
 
     return c.render(
       <div className="flex flex-1 flex-col">
@@ -85,9 +90,7 @@ export default createRoute(
           </div>
         </div>
       </div>,
-      {
-        metadata,
-      }
+      { metadata }
     );
   }
 );
