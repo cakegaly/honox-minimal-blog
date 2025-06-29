@@ -1,7 +1,6 @@
 import { createRoute } from 'honox/factory';
 
 import { getAllBlogPosts } from '@/lib/mdx';
-import { assetPath } from '@/lib/utils';
 
 import { AboutCta } from '@/components/shared/about-cta';
 import { LinkCard } from '@/components/shared/link-card';
@@ -22,10 +21,11 @@ export default createRoute(async (c) => {
             <h2 className="text-2xl font-medium tracking-tight">Grid View</h2>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {allPosts.slice(0, 6).map((post) => (
+            {allPosts.map((post) => (
               <LinkCard
+                key={post.slug}
                 title={post.metadata.title}
-                imageUrl={assetPath(post.metadata.thumbnail || '/og.png')}
+                imageUrl={post.metadata.thumbnail || '/static/og.png'}
                 link={`/blog/${post.slug}`}
                 badgeText={post.metadata.publishedAt}
                 description={post.metadata.description}
