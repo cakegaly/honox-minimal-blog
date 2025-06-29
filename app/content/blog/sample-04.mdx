@@ -1,53 +1,211 @@
 ---
 title: Sample Post
-description: This is a sample blog post of next-minimal-blog.
-publishedAt: 2025-02-04
+description: This is a sample blog post of honox-minimal-blog.
+date: 2025-06-01
 thumbnail: '/static/undraw/image-04.png'
 tags:
-  - tailwind
+  - hono
+  - typescript
 ---
 
-Until now, trying to style an article, document, or blog post with Tailwind has been a tedious task that required a keen eye for typography and a lot of complex custom CSS.
+<Callout title="Note:">
+  The text below is from the [Hono](https://hono.dev/docs/getting-started/basic)
+  docs. I copied it here to test the markdown styles. **Hono is awesome🔥 Let's
+  Build with Joy Together!**
+</Callout>
 
-By default, Tailwind removes all of the default browser styling from paragraphs, headings, lists and more. This ends up being really useful for building application UIs because you spend less time undoing user-agent styles, but when you _really are_ just trying to style some content that came from a rich-text editor in a CMS or a markdown file, it can be surprising and unintuitive.
+Using Hono is super easy. We can set up the project, write code, develop with a local server, and deploy quickly. The same code will work on any runtime, just with different entry points. Let's look at the basic usage of Hono.
 
-We get lots of complaints about it actually, with people regularly asking us things like:
+---
 
-> Why is Tailwind removing the default styles on my `h1` elements? How do I disable this? What do you mean I lose all the other base styles too?
-> We hear you, but we're not convinced that simply disabling our base styles is what you really want. You don't want to have to remove annoying margins every time you use a `p` element in a piece of your dashboard UI. And I doubt you really want your blog posts to use the user-agent styles either — you want them to look _awesome_, not awful.
+## Starter
 
-The `@tailwindcss/typography` plugin is our attempt to give you what you _actually_ want, without any of the downsides of doing something stupid like disabling our base styles.
+Starter templates are available for each platform. Use the following "create-hono" command.
 
-It adds a new `prose` class that you can slap on any block of vanilla HTML content and turn it into a beautiful, well-formatted document:
-
-```html
-<article class="prose">
-  <h1>Garlic bread with cheese: What the science tells us</h1>
-  <p>
-    For years parents have espoused the health benefits of eating garlic bread
-    with cheese to their children, with the food earning such an iconic status
-    in our culture that kids will often dress up as warm, cheesy loaf for
-    Halloween.
-  </p>
-  <p>
-    But a recent study shows that the celebrated appetizer may be linked to a
-    series of rabies cases springing up around the country.
-  </p>
-</article>
+```sh
+pnpm create hono@latest my-app
 ```
 
-For more information about how to use the plugin and the features it includes, [read the documentation](https://github.com/tailwindcss/typography/blob/master/README.md).
+Then you will be asked which template you would like to use.
+Let's select Cloudflare Workers for this example.
+
+```sh
+? Which template do you want to use?
+    aws-lambda
+    bun
+    cloudflare-pages
+❯   cloudflare-workers
+    deno
+    fastly
+    nextjs
+    nodejs
+    vercel
+```
+
+The template will be pulled into `my-app`, so go to it and install the dependencies.
+
+```sh [pnpm]
+cd my-app
+pnpm i
+```
+
+Once the package installation is complete, run the following command to start up a local server.
+
+```sh [pnpm]
+pnpm dev
+```
 
 ---
 
-## What to expect from here on out
+## Hello World
 
-What follows from here is just a bunch of absolute nonsense I've written to dogfood the plugin itself. It includes every sensible typographic element I could think of, like **bold text**, unordered lists, ordered lists, code blocks, block quotes, _and even italics_.
+You can write code in TypeScript with the Cloudflare Workers development tool "Wrangler", Deno, Bun, or others without being aware of transpiling.
 
-It's important to cover all of these use cases for a few reasons:
+Write your first application with Hono in `src/index.ts`. The example below is a starter Hono application.
 
-1.  We want everything to look good out of the box.
-2.  Really just the first reason, that's the whole point of the plugin.
-3.  Here's a third pretend reason though a list with three items looks more realistic than a list with two items.
+The `import` and the final `export default` parts may vary from runtime to runtime,
+but all of the application code will run the same code everywhere.
 
-Now we're going to try out another header style.
+```ts showLineNumbers title="src/index.ts"
+import { Hono } from 'hono';
+
+const app = new Hono();
+
+app.get('/', (c) => {
+  return c.text('Hello Hono!');
+});
+
+export default app;
+```
+
+Start the development server and access `http://localhost:8787` with your browser.
+
+```sh
+pnpm dev
+```
+
+---
+
+## Return JSON
+
+Returning JSON is also easy. The following is an example of handling a GET Request to `/api/hello` and returning an `application/json` Response.
+
+```ts showLineNumbers
+app.get('/api/hello', (c) => {
+  return c.json({
+    ok: true,
+    message: 'Hello Hono!',
+  });
+});
+```
+
+---
+
+## Request and Response
+
+Getting a path parameter, URL query value, and appending a Response header is written as follows.
+
+```ts showLineNumbers
+app.get('/posts/:id', (c) => {
+  const page = c.req.query('page');
+  const id = c.req.param('id');
+  c.header('X-Message', 'Hi!');
+  return c.text(`You want to see ${page} of ${id}`);
+});
+```
+
+We can easily handle POST, PUT, and DELETE not only GET.
+
+```ts showLineNumbers
+app.post('/posts', (c) => c.text('Created!', 201));
+app.delete('/posts/:id', (c) => c.text(`${c.req.param('id')} is deleted!`));
+```
+
+---
+
+## Return HTML
+
+You can write HTML with [the html Helper](/docs/helpers/html) or using [JSX](/docs/guides/jsx) syntax. If you want to use JSX, rename the file to `src/index.tsx` and configure it (check with each runtime as it is different). Below is an example using JSX.
+
+```tsx showLineNumbers title="src/index.tsx"
+const View = () => {
+  return (
+    <html>
+      <body>
+        <h1>Hello Hono!</h1>
+      </body>
+    </html>
+  );
+};
+
+app.get('/page', (c) => {
+  return c.html(<View />);
+});
+```
+
+---
+
+## Return raw Response
+
+You can also return the raw [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response).
+
+```ts
+app.get('/', () => {
+  return new Response('Good morning!');
+});
+```
+
+---
+
+## Using Middleware
+
+Middleware can do the hard work for you.
+For example, add in Basic Authentication.
+
+```ts showLineNumbers
+import { basicAuth } from 'hono/basic-auth';
+
+// ...
+
+app.use(
+  '/admin/*',
+  basicAuth({
+    username: 'admin',
+    password: 'secret',
+  })
+);
+
+app.get('/admin', (c) => {
+  return c.text('You are authorized!');
+});
+```
+
+There are useful built-in middleware including Bearer and authentication using JWT, CORS and ETag.
+Hono also provides third-party middleware using external libraries such as GraphQL Server and Firebase Auth.
+And, you can make your own middleware.
+
+---
+
+## Adapter
+
+There are Adapters for platform-dependent functions, e.g., handling static files or WebSocket.
+For example, to handle WebSocket in Cloudflare Workers, import `hono/cloudflare-workers`.
+
+```ts showLineNumbers
+import { upgradeWebSocket } from 'hono/cloudflare-workers';
+
+app.get(
+  '/ws',
+  upgradeWebSocket((c) => {
+    // ...
+  })
+);
+```
+
+---
+
+## Next step
+
+Most code will work on any platform, but there are guides for each.
+For instance, how to set up projects or how to deploy.
+Please see the page for the exact platform you want to use to create your application!

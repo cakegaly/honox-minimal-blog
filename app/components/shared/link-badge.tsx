@@ -20,7 +20,7 @@ export function LinkBadge({ label, link, className }: LinkBadgeProps) {
   );
 }
 
-function Badge({
+export function Badge({
   class: className,
   Icon,
   clickable = false,
