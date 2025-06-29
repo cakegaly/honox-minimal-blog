@@ -11,6 +11,7 @@ export const tags: Record<
   string,
   { name: string; icon: keyof typeof BrandIcons }
 > = {
+  hono: { name: 'Hono', icon: 'hono' },
   mdx: { name: 'MDX', icon: 'mdx' },
   nextjs: { name: 'Next.js', icon: 'nextjs' },
   tailwind: { name: 'Tailwind CSS', icon: 'tailwind' },
