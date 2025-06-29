@@ -54,3 +54,10 @@ export async function getBlogPostBySlug(
   const allPosts = await getAllBlogPosts();
   return allPosts.find((post) => post.slug === slug);
 }
+
+export async function getBlogPostsByTagSlug(
+  tagSlug: string
+): Promise<BlogPost[]> {
+  const allPosts = await getAllBlogPosts();
+  return allPosts.filter((post) => post.metadata.tags?.includes(tagSlug));
+}

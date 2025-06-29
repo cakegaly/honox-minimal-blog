@@ -59,7 +59,7 @@ export default createRoute(
                     )}
                     <div className="hidden md:flex md:gap-2">
                       {post.metadata.tags?.map((tag) => (
-                        <LinkBadge link={`/tags/${tag}`} label={tag} />
+                        <LinkBadge link={`/tag/${tag}`} label={tag} />
                       ))}
                     </div>
                   </div>
