@@ -1,6 +1,7 @@
 import { ssgParams } from 'hono/ssg';
 import { createRoute } from 'honox/factory';
 
+import { tags } from '@/lib/blog';
 import { authorConfig } from '@/lib/config';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/mdx';
 import { generateMetadata } from '@/lib/metadata';
@@ -59,7 +60,10 @@ export default createRoute(
                     )}
                     <div className="hidden md:flex md:gap-2">
                       {post.metadata.tags?.map((tag) => (
-                        <LinkBadge link={`/tag/${tag}`} label={tag} />
+                        <LinkBadge
+                          link={`/tag/${tag}`}
+                          label={tags[tag].name}
+                        />
                       ))}
                     </div>
                   </div>
